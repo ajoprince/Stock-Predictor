@@ -81,7 +81,7 @@ average = accuracies.mean()
 variance = accuracies.std()
 """
 
-#Refine RNN
+#Refine RNN - The following are methods to take when refining our RNN
 """
 from sklearn.model_selection import GridSearchCV
 
@@ -114,7 +114,6 @@ grid_search = grid.fit(X_train, y_train)
 best_accuracy = grid.best_score_
 best_parameters = grid.best_params_
 """
-#Best parameters {'batch_size': 32, 'epochs': 150}; best accuracy -0.0010388522118125415
 
 #Import Unseen Samsung Stock Prices
 testset = pd.read_csv('Samsung_SP_Test.csv')
