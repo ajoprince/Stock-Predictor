@@ -1,7 +1,7 @@
 # Stock Predictor
+
 **Version 1.0.0**
----
-## Description
+
 This is a simple recursive neural network that uses the previous 90 days of Samsung closing Stock Prices to predict the current day's closing price.
 
 Requirements:
