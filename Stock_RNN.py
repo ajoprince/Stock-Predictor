@@ -47,6 +47,10 @@ regressor.add(LSTM(units = 50, return_sequences = 'True' ))
 regressor.add(Dropout(0.2))
 
 #Final layer of RNN
+regressor.add(LSTM(units = 50, return_sequences = 'True' ))
+regressor.add(Dropout(0.2))
+
+#Final layer of RNN
 regressor.add(LSTM(units = 50 ))
 regressor.add(Dropout(0.2))
 
@@ -57,7 +61,16 @@ regressor.add(Dense(units = 1))
 regressor.compile(optimizer = 'adam', loss = 'mean_squared_error')
 
 #Fit RNN with training set
-regressor.fit(X_train, y_train, batch_size = 32, epochs = 10)
+regressor.fit(X_train, y_train, batch_size = 32, epochs = 100)
+
+#Save regressor to keras.models
+regressor.save('regressor_90.h5')
+
+#Load regressor from keras.models
+"""
+from keras.models import load_model
+regressor = load_model('regressor_90.h5')
+"""
 
 #Evaluate RNN
 """
@@ -81,7 +94,7 @@ average = accuracies.mean()
 variance = accuracies.std()
 """
 
-#Refine RNN - The following are methods to take when refining our RNN
+#Refine RNN
 """
 from sklearn.model_selection import GridSearchCV
 
@@ -114,6 +127,7 @@ grid_search = grid.fit(X_train, y_train)
 best_accuracy = grid.best_score_
 best_parameters = grid.best_params_
 """
+#Best parameters {'batch_size': 32, 'epochs': 150}; best accuracy -0.0010388522118125415
 
 #Import Unseen Samsung Stock Prices
 testset = pd.read_csv('Samsung_SP_Test.csv')
@@ -121,7 +135,7 @@ future_prices = testset.iloc[:,1:2].values
 
 #Combine Past and Unseen Stock Prices to produce total dataset to allow prediction
 totalset = np.concatenate((past_prices, future_prices), axis = 0)
-inputs = totalset[len(past_prices)-90:,0]
+inputs = totalset[len(totalset)-len(future_prices)-90:,0]
 inputs = inputs.reshape(-1,1)
 inputs = sc.transform(inputs)
 
